@@ -33,7 +33,7 @@ function task1_3() {
 
 function task2_1() {
     let age = prompt("Enter the age: ");
-    if (age => 0 && age <= 12) {
+    if (age >= 0 && age <= 12) {
         alert("You are: child");
     }
     else if (age > 12 && age <= 18) {
