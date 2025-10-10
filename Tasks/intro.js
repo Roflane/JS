@@ -1,7 +1,7 @@
 function task1_1() {
     let gb = prompt("Enter the capacity of flash drive (GB): ");
-    let fixedRes = (gb / (820 * 8000)).toFixed();
-    alert(`The amount of data that can be stored on your flash drive ${fixedRes} (1 file = 820 Mb)`);
+    let res = Math.floor((gb * 8000) / 820);
+    alert(`The amount of data that can be stored on your flash drive ${res} (1 file = 820 Mb)`);
 }
 
 function task1_2() {
@@ -33,7 +33,7 @@ function task1_3() {
 
 function task2_1() {
     let age = prompt("Enter the age: ");
-    if (age => 0 && age <= 12) {
+    if (age >= 0 && age <= 12) {
         alert("You are: child");
     }
     else if (age > 12 && age <= 18) {
