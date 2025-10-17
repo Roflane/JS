@@ -4,15 +4,12 @@ class CssObject {
 
     constructor(element, dict = {}) {
         this.element = element;
-        this.dict = dict;
         this.#selector = `${element} {\n`;
     }
 
     set_style(pair) {
         const key = Object.keys(pair)[0];
-        const v = Object.values(pair)[0];
-
-        this.#styleDict[key] = v;
+        this.#styleDict[key] = Object.values(pair)[0];
         return true;
     }
 
@@ -64,8 +61,7 @@ class HtmlObject {
 
     set_attribute(attribute) {
         const key = Object.keys(attribute)[0];
-        const v = Object.values(attribute)[0];
-        this.#attributes[key] = v;
+        this.#attributes[key] = Object.values(attribute)[0];
     }
 
     #build_open_tag() {
@@ -89,10 +85,10 @@ class HtmlObject {
 
 
 class ExtendedDate extends Date {
-    to_readable_string() {
+    to_readable_string(date, month) {
         let result = ''
 
-        const day = this.getDate();
+        const day = date;
         if (day === 1) {
             result = result.concat('1st ');
         }
@@ -104,60 +100,33 @@ class ExtendedDate extends Date {
         }
         else result = result.concat(`${day}th `);
 
-        switch(this.getMonth()) {
-            case 1:
-                result = result.concat(`of January`);
-                break;
-            case 2:
-                result = result.concat(`of February`);
-                break;
-            case 3:
-                result = result.concat(`of March`);
-                break;
-            case 4:
-                result = result.concat(`of April`);
-                break;
-            case 5:
-                result = result.concat(`of May`);
-                break;
-            case 6:
-                result = result.concat(`of June`);
-                break;
-            case 7:
-                result = result.concat(`of July`);
-                break;
-            case 8:
-                result = result.concat(`of August`);
-                break;
-            case 9:
-                result = result.concat(`of September`);
-                break;
-            case 10:
-                result = result.concat(`of October`);
-                break;
-            case 11:
-                result = result.concat(`of November`);
-                break;
-            case 12:
-                result = result.concat(`of December`);
-                break;
+        const pair = {
+            1: "of January",
+            2: "of February",
+            3: "of March",
+            4: "of April",
+            5: "of May",
+            6: "of June",
+            7: "of July",
+            8: "of August",
+            9: "of September",
+            10: "of October",
+            11: "of November",
+            12: "of December",
         }
-        return result;
+        return result.concat(pair[month]);
     }
 
     is_future(date, month, year) {
         const currentDate = this.getDate();
-        const currentMonth = this.getMonth() + 1;1
+        const currentMonth = this.getMonth() + 1;
         const currentYear = this.getFullYear();
 
         if (year > currentYear) return true;
         if (year < currentYear) return false;
-
         if (month > currentMonth) return true;
         if (month < currentMonth) return false;
-
-        if (date > currentDate) return true;
-        return false;
+        return date > currentDate;
     }
 
     is_leap_year(year) {
@@ -173,7 +142,7 @@ function test_css_object() {
     if (css.set_style(colorWhite)) {
         console.log(`Style is set successfully`);
     }
-
+    console.log(css.get_css());
     console.log(css.get_style_count());
 
     if (css.remove_style(colorWhite)) {
@@ -253,13 +222,13 @@ function test_html_object() {
 
 function test_extended_date() {
     const date = new ExtendedDate();
-    console.log(date.to_readable_string());
+    console.log(date.to_readable_string(date.getDate(), date.getMonth()));
     console.log(date.is_future(9, 10, 2025));
     console.log(date.is_leap_year(2020));
 }
 
 !function main() {
-    test_css_object();
-    //test_html_object();
+    //test_css_object();
+    test_html_object();
     //test_extended_date();
 }()
